@@ -12,12 +12,14 @@
  				`userId`
  				,`subject`
  				,`content`
+ 				,`imagePath`
  			)
  		VALUE
  			(
  			#{userId}
  			,#{title}
  			,#{content}
+ 			,#{imagePath}
  			)
  	
  	</insert>

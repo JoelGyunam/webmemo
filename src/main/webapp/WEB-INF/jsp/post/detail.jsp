@@ -24,6 +24,7 @@
 				</div>
 			
 				<textarea id="contentInput" rows="10" class="form-control mt-3">${post.content }</textarea>
+				<img alt="" src="${post.imagePath} ">
 				<div class="d-flex justify-content-between mt-2">
 					<div>
 						<a href="/post/list-view" class="btn btn-secondary">목록으로</a>
