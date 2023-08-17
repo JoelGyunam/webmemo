@@ -6,7 +6,9 @@ import java.util.Map;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -40,5 +42,39 @@ public class PostRestController {
 		return resultMap;
 	}
 	
+	@PutMapping("/update")
+	public Map<String,String> updateMemo(
+			@RequestParam("id") int id
+			,@RequestParam("subject") String subject
+			,@RequestParam("content") String content
+			) {
+		int count = postService.updatePost(id, subject, content);
+		
+		Map<String,String> resultMap = new HashMap<>();
+		if(count==1) {
+			resultMap.put("result", "success");
+		} else {
+			resultMap.put("result", "fail");
+		}
+		return resultMap;
+	}
+	
+	@DeleteMapping("/delete")
+	public Map<String,String> deleteMemo(
+			@RequestParam("id") int id
+			,HttpSession session
+			){
+		int userId = (int) session.getAttribute("userId");
+		int count = postService.deletePost(id,userId);
+		Map<String,String> resultMap = new HashMap<>();
+		if(count==1) {
+			resultMap.put("result", "success");
+		} else {
+			resultMap.put("result", "fail");
+		}
+		return resultMap;
 
+	}
+
+	
 }

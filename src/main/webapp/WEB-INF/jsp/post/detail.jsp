@@ -28,9 +28,9 @@
 				<div class="d-flex justify-content-between mt-2">
 					<div>
 						<a href="/post/list-view" class="btn btn-secondary">목록으로</a>
-						<button id="saveBtn" type="button" class="btn btn-danger">삭제하기</button>
+						<button id="deleteBtn" data-post-id="${post.id}" type="button" class="btn btn-danger">삭제하기</button>
 					</div>
-					<button id="saveBtn" type="button" class="btn btn-secondary">수정하기</button>
+					<button id="saveBtn" type="button" data-post-id="${post.id}" class="btn btn-secondary">수정하기</button>
 				</div>
 			
 			</div>
@@ -45,32 +45,56 @@
 	<script>
 		$(document).ready(function(){
 			
+			$("#deleteBtn").on("click",function(){
+				let postId = $(this).data("post-id");
+
+				if(confirm("메모를 삭제할까요?")){
+					$.ajax({
+						type:"delete"
+						,url:"/post/delete"
+						,data:{"id":postId}
+						,success:function(data){
+							if(data.result=="success"){
+								alert("메모를 삭제했습니다.");
+								location.href="/post/list-view"
+							} else{
+								alert("삭제에 실패했습니다.");
+							}
+						}
+						,error:function(){
+							alert("메모 삭제 중 에러가 발생했습니다.");
+						}
+					});
+				}
+			});
+			
 			$("#saveBtn").on("click", function(){
 				let title = $("#titleInput").val();
 				let content = $("#contentInput").val();
+				let postId = $(this).data("post-id");
 				
 				if(title ==""){
 					alert("제목을 입력하세요");
 					return;
-				}
+				};
 				if(content ==""){
 					alert("내용을 입력하세요");
 					return;
-				}
+				};
 				
 				$.ajax({
-					type:"post"
-					,url:"/post/create"
-					,data:{"title":title, "content":content}
+					type:"put"
+					,url:"/post/update"
+					,data:{"id":postId, "subject":title, "content":content}
 					,success:function(data){
 						if(data.result=="success"){
 							location.href="/post/list-view"
 						} else{
-							alert("메모작성에 실패했습니다.");
+							alert("메모수정에 실패했습니다.");
 						}
 					}
 					,error:function(){
-						alert("메모 저장 중 에러가 발생했습니다.");
+						alert("수정사항을 저장 중 에러가 발생했습니다.");
 					}
 					
 				});

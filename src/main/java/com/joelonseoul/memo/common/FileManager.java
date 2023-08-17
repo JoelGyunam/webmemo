@@ -55,4 +55,36 @@ public class FileManager {
 		
 	}
 	
+	public static boolean removeFile(String filePath) { ///images/5_1691578508721/img_placeholder.jpg
+		if(filePath == null) {
+			return false;
+		}
+		//  C:\\Users\\gynpa\\Documents\\projects\\memo\\upload/images/5_1691578508721/img_placeholder.jpg
+		
+		String fullFilePath = FILE_UPLOAD_PATH + filePath.replace("/images", "");
+		
+		Path path = Paths.get(fullFilePath);
+		
+		//파일 존재 여부
+		if(Files.exists(path)) {
+			try {
+				Files.delete(path);
+			} catch (IOException e) {
+				e.printStackTrace();
+				return false;
+			}
+		}
+		
+		Path dirPath = path.getParent();
+		if(Files.exists(dirPath)) {
+			try {
+				Files.delete(dirPath);
+			} catch (IOException e) {
+				e.printStackTrace();
+				return false;
+			}
+		}
+		
+		return true;
+	}
 }

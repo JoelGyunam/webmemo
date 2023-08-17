@@ -20,4 +20,12 @@ public interface PostRepository {
 	public List<Post> selectPostList(@Param("userId") int userId);
 	
 	public Post selectPost(@Param("id")int id);
+	
+	public int updatePost(
+			@Param("id") int id
+			,@Param("subject") String subject
+			,@Param("content") String Content
+			);
+	
+	public int deletePost(@Param("id") int id);
 }

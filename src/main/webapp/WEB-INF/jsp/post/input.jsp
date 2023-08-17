@@ -41,6 +41,7 @@
 
 	<script>
 		$(document).ready(function(){
+
 			
 			$("#saveBtn").on("click", function(){
 				let title = $("#titleInput").val();

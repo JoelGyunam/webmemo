@@ -34,4 +34,22 @@ public class PostService {
 	public Post getPost(int id) {
 		return postRepository.selectPost(id);
 	}
+	
+	public int updatePost(int id, String subject, String content) {
+		return postRepository.updatePost(id, subject, content);
+	}
+
+	public int deletePost(int id, int userId) {
+		
+		//삭제 대상의 이미지 경로 얻기
+		Post post = postRepository.selectPost(id);
+		
+		if(userId == post.getUserId()) {
+			FileManager.removeFile(post.getImagePath());
+			return postRepository.deletePost(id);
+		} else {
+			return 0;
+		}
+		
+	}
 }
